@@ -1,0 +1,52 @@
+{% extends "orders/base.html" %}
+{% load static %}
+{% block title %}Smart Xerox | Print without the queue{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="pulse"></span> SMART PRINTING • SIMPLE PAYMENTS</div>
+    <h1>Your documents.<br><span class="gradient-text">Printed smarter.</span></h1>
+    <p>Upload your PDF, choose your print settings, see the price instantly and track your order with a QR code.</p>
+    <div class="hero-pills"><span>⚡ Quick upload</span><span>▦ QR tracking</span><span>✓ Clear pricing</span></div>
+  </div>
+  <div class="hero-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="paper"><div class="paper-top"></div><div class="paper-line"></div><div class="paper-line short"></div><div class="paper-line"></div><div class="paper-line mid"></div><div class="paper-stamp">PRINT<br>READY</div></div><div class="floating-tag">✦ Ready when you are</div></div>
+</section>
+<section class="content-grid">
+  <div class="panel form-panel">
+    <div class="section-kicker">01 / CREATE YOUR ORDER</div>
+    <h2>Let's get printing</h2>
+    <p class="muted">PDF files only · Maximum 10 MB · Up to 100 copies</p>
+    <form method="post" enctype="multipart/form-data" id="printForm">
+      {% csrf_token %}
+      <label class="upload-zone" for="document">
+        <span class="upload-icon">↑</span><strong>Choose your PDF</strong><span id="fileName">Drag your file here or browse</span>
+        <input type="file" id="document" name="document" accept=".pdf,application/pdf" required>
+      </label>
+      <div class="field-row">
+        <div class="field"><label for="copies">Number of copies</label><input type="number" id="copies" name="copies" min="1" max="100" value="1" required></div>
+        <div class="field"><label for="print_type">Print type</label><select id="print_type" name="print_type"><option value="bw">Black &amp; White</option><option value="color">Colour</option></select></div>
+      </div>
+      <div class="field"><label for="sides">Printing mode</label><select id="sides" name="sides"><option value="single">Single-sided</option><option value="double">Double-sided</option></select></div>
+      <div class="estimate-card">
+        <div><span class="estimate-label">YOUR ESTIMATED TOTAL</span><div class="amount" id="amount">₹0.00</div><div class="estimate-meta" id="pageInfo">Select a PDF to calculate the page count.</div></div>
+        <div class="estimate-icon">₹</div>
+      </div>
+      <button class="btn btn-primary full" id="submitButton" type="submit">Create print order <span>→</span></button>
+      <p class="tiny-note">Your final amount is recalculated securely by the server before the order is saved.</p>
+    </form>
+  </div>
+  <aside class="side-column">
+    <div class="panel price-panel"><div class="section-kicker">02 / TRANSPARENT PRICING</div><h3>Simple rates, no surprises.</h3>
+      <div class="rate-row"><span><i class="dot purple"></i> B&amp;W · Single</span><b>₹2 <small>/ page</small></b></div>
+      <div class="rate-row"><span><i class="dot pink"></i> B&amp;W · Double</span><b>₹3 <small>/ sheet</small></b></div>
+      <div class="rate-row"><span><i class="dot orange"></i> Colour · Single</span><b>₹5 <small>/ page</small></b></div>
+      <div class="rate-row"><span><i class="dot cyan"></i> Colour · Double</span><b>₹8 <small>/ sheet</small></b></div>
+      <p class="tiny-note">Sample prices. Double-sided is charged per physical sheet; an odd final page uses one side of a sheet.</p>
+    </div>
+    <div class="mini-feature"><div class="feature-icon">▦</div><div><b>One QR. Easy pickup.</b><p>After payment confirmation, your order gets a QR code for the operator.</p></div></div>
+    <div class="mini-feature"><div class="feature-icon orange-bg">↗</div><div><b>Track every step.</b><p>Use your order page to see payment and printing status.</p></div></div>
+  </aside>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

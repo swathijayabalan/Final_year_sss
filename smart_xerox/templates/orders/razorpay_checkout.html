@@ -1,0 +1,35 @@
+{% extends "orders/base.html" %}
+{% block title %}Razorpay checkout | Smart Xerox{% endblock %}
+{% block content %}
+<section class="narrow"><div class="panel result-panel"><div class="section-kicker">SECURE TEST CHECKOUT</div><h1>Complete payment</h1><div class="payment-total">₹{{ order.total_amount }}</div>
+<button id="rzp-button" class="btn btn-primary full">Pay with Razorpay</button>
+<form id="verify-form" method="post" action="{% url 'verify_payment' %}">{% csrf_token %}
+<input type="hidden" name="order_id" value="{{ order.order_id }}">
+<input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+<input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+<input type="hidden" name="razorpay_signature" id="razorpay_signature">
+</form></div></section>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+const options = {
+  key: "{{ razorpay_key|escapejs }}",
+  amount: "{{ order.total_amount|floatformat:2 }}".replace(".", "") * 100,
+  currency: "INR",
+  name: "Smart Xerox",
+  description: "Print order {{ order.order_id }}",
+  order_id: "{{ razorpay_order_id|escapejs }}",
+  handler: function (response) {
+    document.getElementById("razorpay_order_id").value = response.razorpay_order_id;
+    document.getElementById("razorpay_payment_id").value = response.razorpay_payment_id;
+    document.getElementById("razorpay_signature").value = response.razorpay_signature;
+    document.getElementById("verify-form").submit();
+  },
+  theme: { color: "#7357f6" }
+};
+document.getElementById("rzp-button").onclick = function(e) {
+  const checkout = new Razorpay(options);
+  checkout.open();
+  e.preventDefault();
+};
+</script>
+{% endblock %}

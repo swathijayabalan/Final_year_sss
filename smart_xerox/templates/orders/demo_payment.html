@@ -1,0 +1,11 @@
+{% extends "orders/base.html" %}
+{% block title %}Demo payment | Smart Xerox{% endblock %}
+{% block content %}
+<section class="narrow"><div class="panel result-panel">
+<div class="section-kicker">LOCAL TEST MODE</div><h1>Demo payment</h1>
+<p class="muted">This simulates a successful payment for development only. No money will be charged. Do not use demo payment in production.</p>
+<div class="payment-total">₹{{ order.total_amount }}</div>
+<form method="post" action="{% url 'verify_payment' %}">{% csrf_token %}<input type="hidden" name="order_id" value="{{ order.order_id }}"><button class="btn btn-primary full" type="submit">Simulate successful payment ✓</button></form>
+<a class="text-link" href="{% url 'track_order' order.order_id %}">Cancel and return</a>
+</div></section>
+{% endblock %}

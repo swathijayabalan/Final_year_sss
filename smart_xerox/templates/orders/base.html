@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Smart Xerox{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+<nav class="navbar">
+  <a class="brand" href="{% url 'home' %}"><span class="brand-mark">✦</span> Smart<span>Xerox</span></a>
+  <div class="nav-links"><a href="{% url 'home' %}">Home</a><a href="/admin/">Admin</a><a href="{% url 'operator_dashboard' %}">Operator</a></div>
+</nav>
+<main class="page-wrap">
+{% if messages %}<div class="messages">{% for message in messages %}<div class="alert {{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+{% block content %}{% endblock %}
+</main>
+<footer>Print smarter. Skip the queue. <span>✦</span> SmartXerox</footer>
+</body>
+</html>

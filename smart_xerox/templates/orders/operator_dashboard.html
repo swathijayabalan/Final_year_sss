@@ -1,0 +1,9 @@
+{% extends "orders/base.html" %}
+{% block title %}Operator dashboard | Smart Xerox{% endblock %}
+{% block content %}
+<div class="dashboard-head"><div><div class="section-kicker">STAFF WORKSPACE</div><h1>Operator dashboard</h1><p class="muted">Only staff users can access this page. Scan the customer's QR or open an order below.</p></div><a class="btn btn-secondary" href="/admin/logout/">Log out</a></div>
+<div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>Order</th><th>Document</th><th>Options</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody>
+{% for order in orders %}<tr><td><small>{{ order.order_id|truncatechars:13 }}</small></td><td>{{ order.original_filename }}</td><td>{{ order.get_print_type_display }}<br>{{ order.get_sides_display }} · {{ order.copies }} cop.</td><td>₹{{ order.total_amount }}</td><td><span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span></td><td><a class="table-link" href="{% url 'operator_order' order.order_id %}">Open →</a></td></tr>
+{% empty %}<tr><td colspan="6">No orders yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}
